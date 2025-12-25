@@ -251,4 +251,19 @@ class HttpClient
             usleep($milliseconds * 1000);
         }
     }
+
+    /**
+     * Prevent API key from appearing in var_dump() or print_r() output.
+     *
+     * @return array<string, mixed>
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'apiKey' => '[REDACTED]',
+            'baseUrl' => $this->baseUrl,
+            'maxRetries' => $this->maxRetries,
+            'retryDelay' => $this->retryDelay,
+        ];
+    }
 }

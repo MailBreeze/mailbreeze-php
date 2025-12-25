@@ -302,4 +302,26 @@ class HttpClientTest extends TestCase
             $this->assertLessThanOrEqual(60, $e->getRetryAfter());
         }
     }
+
+    public function testApiKeyRedactedInDebugOutput(): void
+    {
+        $secretApiKey = 'sk_live_super_secret_api_key_12345';
+        $client = new HttpClient($secretApiKey);
+
+        // Get the debug info
+        $debugInfo = $client->__debugInfo();
+
+        // API key should be redacted
+        $this->assertEquals('[REDACTED]', $debugInfo['apiKey']);
+        $this->assertStringNotContainsString($secretApiKey, print_r($debugInfo, true));
+
+        // Also test with var_dump
+        ob_start();
+        var_dump($client);
+        $varDumpOutput = ob_get_clean();
+
+        $this->assertIsString($varDumpOutput);
+        $this->assertStringNotContainsString($secretApiKey, (string) $varDumpOutput);
+        $this->assertStringContainsString('[REDACTED]', (string) $varDumpOutput);
+    }
 }
