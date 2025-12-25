@@ -1,0 +1,11 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Guzzle Response mock in tests - json_encode returns string|false
+        - '#Parameter \#3 \$body of class GuzzleHttp\\Psr7\\Response constructor expects#'
+        # Test helper method type hints
+        - '#has parameter \$responses with no value type specified#'
