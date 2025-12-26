@@ -20,6 +20,10 @@ class Contacts
      *     first_name?: string,
      *     last_name?: string,
      *     custom_fields?: array<string, mixed>,
+     *     consent_type?: 'explicit'|'implicit'|'legitimate_interest',
+     *     consent_source?: string,
+     *     consent_timestamp?: string,
+     *     consent_ip_address?: string,
      * } $params
      * @return array<string, mixed>
      */
@@ -46,6 +50,10 @@ class Contacts
      *     first_name?: string,
      *     last_name?: string,
      *     custom_fields?: array<string, mixed>,
+     *     consent_type?: 'explicit'|'implicit'|'legitimate_interest',
+     *     consent_source?: string,
+     *     consent_timestamp?: string,
+     *     consent_ip_address?: string,
      * } $params
      * @return array<string, mixed>
      */
