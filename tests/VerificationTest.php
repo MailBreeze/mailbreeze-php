@@ -165,4 +165,53 @@ class VerificationTest extends TestCase
         $this->assertEquals(8500, $stats['totalValid']);
         $this->assertEquals(85.0, $stats['validPercentage']);
     }
+
+    public function testListVerifications(): void
+    {
+        $client = $this->createClient([
+            new Response(200, [], json_encode([
+                'items' => [
+                    ['id' => 'verif_1', 'status' => 'completed', 'total' => 100],
+                    ['id' => 'verif_2', 'status' => 'processing', 'total' => 50],
+                ],
+                'meta' => [
+                    'page' => 1,
+                    'limit' => 10,
+                    'total' => 2,
+                    'total_pages' => 1,
+                ],
+            ])),
+        ]);
+
+        $result = $client->verification->list();
+
+        $this->assertCount(2, $result['items']);
+        $this->assertEquals('verif_1', $result['items'][0]['id']);
+    }
+
+    public function testListVerificationsWithFilters(): void
+    {
+        $client = $this->createClient([
+            new Response(200, [], json_encode([
+                'items' => [
+                    ['id' => 'verif_1', 'status' => 'completed', 'total' => 100],
+                ],
+                'meta' => [
+                    'page' => 1,
+                    'limit' => 10,
+                    'total' => 1,
+                    'total_pages' => 1,
+                ],
+            ])),
+        ]);
+
+        $result = $client->verification->list([
+            'status' => 'completed',
+            'page' => 1,
+            'limit' => 10,
+        ]);
+
+        $this->assertCount(1, $result['items']);
+        $this->assertEquals('completed', $result['items'][0]['status']);
+    }
 }

@@ -24,7 +24,7 @@ class Attachments
      */
     public function createUploadUrl(array $params): array
     {
-        return $this->client->post('/attachments/upload', $params) ?? [];
+        return $this->client->post('/api/v1/attachments/presigned-url', $params) ?? [];
     }
 
     /**
@@ -34,7 +34,7 @@ class Attachments
      */
     public function get(string $id): array
     {
-        return $this->client->get('/attachments/' . $id) ?? [];
+        return $this->client->get('/api/v1/attachments/' . $id) ?? [];
     }
 
     /**
@@ -44,6 +44,6 @@ class Attachments
      */
     public function delete(string $id): ?array
     {
-        return $this->client->delete('/attachments/' . $id);
+        return $this->client->delete('/api/v1/attachments/' . $id);
     }
 }

@@ -31,7 +31,7 @@ class Contacts
      */
     public function create(array $params): array
     {
-        return $this->client->post('/contacts', $params) ?? [];
+        return $this->client->post('/api/v1/contacts', $params) ?? [];
     }
 
     /**
@@ -41,7 +41,7 @@ class Contacts
      */
     public function get(string $id): array
     {
-        return $this->client->get('/contacts/' . $id) ?? [];
+        return $this->client->get('/api/v1/contacts/' . $id) ?? [];
     }
 
     /**
@@ -62,7 +62,7 @@ class Contacts
      */
     public function update(string $id, array $params): array
     {
-        return $this->client->patch('/contacts/' . $id, $params) ?? [];
+        return $this->client->put('/api/v1/contacts/' . $id, $params) ?? [];
     }
 
     /**
@@ -72,7 +72,7 @@ class Contacts
      */
     public function delete(string $id): ?array
     {
-        return $this->client->delete('/contacts/' . $id);
+        return $this->client->delete('/api/v1/contacts/' . $id);
     }
 
     /**
@@ -88,7 +88,7 @@ class Contacts
      */
     public function list(array $params = []): array
     {
-        return $this->client->get('/contacts', $params) ?? [];
+        return $this->client->get('/api/v1/contacts', $params) ?? [];
     }
 
     /**
@@ -98,7 +98,7 @@ class Contacts
      */
     public function unsubscribe(string $id): array
     {
-        return $this->client->post('/contacts/' . $id . '/unsubscribe') ?? [];
+        return $this->client->post('/api/v1/contacts/' . $id . '/unsubscribe') ?? [];
     }
 
     /**
@@ -108,6 +108,6 @@ class Contacts
      */
     public function resubscribe(string $id): array
     {
-        return $this->client->post('/contacts/' . $id . '/resubscribe') ?? [];
+        return $this->client->post('/api/v1/contacts/' . $id . '/resubscribe') ?? [];
     }
 }

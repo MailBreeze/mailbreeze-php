@@ -23,7 +23,7 @@ class Lists
      */
     public function create(array $params): array
     {
-        return $this->client->post('/lists', $params) ?? [];
+        return $this->client->post('/api/v1/contact-lists', $params) ?? [];
     }
 
     /**
@@ -33,7 +33,7 @@ class Lists
      */
     public function get(string $id): array
     {
-        return $this->client->get('/lists/' . $id) ?? [];
+        return $this->client->get('/api/v1/contact-lists/' . $id) ?? [];
     }
 
     /**
@@ -47,7 +47,7 @@ class Lists
      */
     public function update(string $id, array $params): array
     {
-        return $this->client->patch('/lists/' . $id, $params) ?? [];
+        return $this->client->put('/api/v1/contact-lists/' . $id, $params) ?? [];
     }
 
     /**
@@ -57,7 +57,7 @@ class Lists
      */
     public function delete(string $id): ?array
     {
-        return $this->client->delete('/lists/' . $id);
+        return $this->client->delete('/api/v1/contact-lists/' . $id);
     }
 
     /**
@@ -72,7 +72,7 @@ class Lists
      */
     public function list(array $params = []): array
     {
-        return $this->client->get('/lists', $params) ?? [];
+        return $this->client->get('/api/v1/contact-lists', $params) ?? [];
     }
 
     /**
@@ -82,7 +82,7 @@ class Lists
      */
     public function stats(string $id): array
     {
-        return $this->client->get('/lists/' . $id . '/stats') ?? [];
+        return $this->client->get('/api/v1/contact-lists/' . $id . '/stats') ?? [];
     }
 
     /**
@@ -92,7 +92,7 @@ class Lists
      */
     public function addContact(string $listId, string $contactId): array
     {
-        return $this->client->post('/lists/' . $listId . '/contacts/' . $contactId) ?? [];
+        return $this->client->post('/api/v1/contact-lists/' . $listId . '/contacts/' . $contactId) ?? [];
     }
 
     /**
@@ -102,7 +102,7 @@ class Lists
      */
     public function removeContact(string $listId, string $contactId): array
     {
-        return $this->client->delete('/lists/' . $listId . '/contacts/' . $contactId) ?? [];
+        return $this->client->delete('/api/v1/contact-lists/' . $listId . '/contacts/' . $contactId) ?? [];
     }
 
     /**
@@ -116,6 +116,6 @@ class Lists
      */
     public function contacts(string $listId, array $params = []): array
     {
-        return $this->client->get('/lists/' . $listId . '/contacts', $params) ?? [];
+        return $this->client->get('/api/v1/contact-lists/' . $listId . '/contacts', $params) ?? [];
     }
 }

@@ -34,7 +34,7 @@ class Emails
      */
     public function send(array $params): array
     {
-        return $this->client->post('/emails', $params) ?? [];
+        return $this->client->post('/api/v1/emails', $params) ?? [];
     }
 
     /**
@@ -44,7 +44,7 @@ class Emails
      */
     public function get(string $id): array
     {
-        return $this->client->get('/emails/' . $id) ?? [];
+        return $this->client->get('/api/v1/emails/' . $id) ?? [];
     }
 
     /**
@@ -61,7 +61,7 @@ class Emails
      */
     public function list(array $params = []): array
     {
-        return $this->client->get('/emails', $params) ?? [];
+        return $this->client->get('/api/v1/emails', $params) ?? [];
     }
 
     /**
@@ -71,7 +71,7 @@ class Emails
      */
     public function stats(): array
     {
-        $response = $this->client->get('/emails/stats') ?? [];
+        $response = $this->client->get('/api/v1/emails/stats') ?? [];
 
         // Backend returns {"stats": {...}} so extract the nested object
         return $response['stats'] ?? $response;
@@ -84,6 +84,6 @@ class Emails
      */
     public function cancel(string $id): array
     {
-        return $this->client->post('/emails/' . $id . '/cancel') ?? [];
+        return $this->client->post('/api/v1/emails/' . $id . '/cancel') ?? [];
     }
 }

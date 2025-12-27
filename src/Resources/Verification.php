@@ -20,7 +20,7 @@ class Verification
      */
     public function verify(array $params): array
     {
-        return $this->client->post('/email-verification/single', $params) ?? [];
+        return $this->client->post('/api/v1/email-verification/single', $params) ?? [];
     }
 
     /**
@@ -31,7 +31,7 @@ class Verification
      */
     public function batch(array $emails): array
     {
-        return $this->client->post('/email-verification/batch', ['emails' => $emails]) ?? [];
+        return $this->client->post('/api/v1/email-verification/batch', ['emails' => $emails]) ?? [];
     }
 
     /**
@@ -41,7 +41,7 @@ class Verification
      */
     public function get(string $verificationId): array
     {
-        return $this->client->get('/email-verification/' . $verificationId) ?? [];
+        return $this->client->get('/api/v1/email-verification/' . $verificationId) ?? [];
     }
 
     /**
@@ -51,6 +51,21 @@ class Verification
      */
     public function stats(): array
     {
-        return $this->client->get('/email-verification/stats') ?? [];
+        return $this->client->get('/api/v1/email-verification/stats') ?? [];
+    }
+
+    /**
+     * List verification jobs with optional filters.
+     *
+     * @param array{
+     *     page?: int,
+     *     limit?: int,
+     *     status?: string,
+     * } $params
+     * @return array<string, mixed>
+     */
+    public function list(array $params = []): array
+    {
+        return $this->client->get('/api/v1/email-verification', $params) ?? [];
     }
 }

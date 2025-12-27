@@ -18,7 +18,7 @@ use MailBreeze\Exceptions\ValidationException;
 
 class HttpClient
 {
-    private const DEFAULT_BASE_URL = 'https://api.mailbreeze.com/api/v1';
+    private const DEFAULT_BASE_URL = 'https://api.mailbreeze.com';
     private const DEFAULT_TIMEOUT = 30;
     private const DEFAULT_MAX_RETRIES = 3;
     private const DEFAULT_RETRY_DELAY = 1000; // milliseconds
@@ -73,6 +73,15 @@ class HttpClient
     public function post(string $path, ?array $body = null, array $options = []): ?array
     {
         return $this->request('POST', $path, $body, [], $options);
+    }
+
+    /**
+     * @param array<string, mixed>|null $body
+     * @return array<string, mixed>|null
+     */
+    public function put(string $path, ?array $body = null): ?array
+    {
+        return $this->request('PUT', $path, $body);
     }
 
     /**
@@ -171,8 +180,15 @@ class HttpClient
                 $responseBody = (string) $response->getBody();
                 $data = json_decode($responseBody, true) ?? [];
 
-                $message = $data['error'] ?? $e->getMessage();
-                $errorCode = $data['code'] ?? null;
+                // Handle error field that could be a string or an object
+                $error = $data['error'] ?? null;
+                if (is_array($error)) {
+                    $message = $error['message'] ?? json_encode($error);
+                    $errorCode = $error['code'] ?? $data['code'] ?? null;
+                } else {
+                    $message = $error ?? $e->getMessage();
+                    $errorCode = $data['code'] ?? null;
+                }
 
                 // Handle retryable status codes
                 if (in_array($statusCode, self::RETRYABLE_STATUS_CODES, true) && $statusCode !== 429) {
