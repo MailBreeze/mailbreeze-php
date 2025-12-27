@@ -175,6 +175,12 @@ $batch = $client->verification->batch([
 // Check batch status
 $result = $client->verification->get($batch['verification_id']);
 
+// List verification jobs
+$verifications = $client->verification->list([
+    'page' => 1,
+    'limit' => 20,
+]);
+
 // Get verification statistics
 $stats = $client->verification->stats();
 ```
@@ -185,28 +191,31 @@ $stats = $client->verification->stats();
 // Create upload URL
 $upload = $client->attachments->createUploadUrl([
     'filename' => 'invoice.pdf',
-    'content_type' => 'application/pdf',
+    'contentType' => 'application/pdf',
     'size' => 102400,
 ]);
 
 // Upload file to the URL
-// Use your preferred HTTP client to PUT the file to $upload['upload_url']
+// Use your preferred HTTP client to PUT the file to $upload['uploadUrl']
 
-// Get attachment
-$attachment = $client->attachments->get($upload['attachment_id']);
-
-// Delete attachment
-$client->attachments->delete('attach_123');
+// Use the attachment ID when sending emails
+$email = $client->emails->send([
+    'from' => 'hello@yourdomain.com',
+    'to' => ['user@example.com'],
+    'subject' => 'Your Invoice',
+    'html' => '<p>Please find your invoice attached.</p>',
+    'attachmentIds' => [$upload['attachmentId']],
+]);
 ```
 
 ## Configuration Options
 
 ```php
 $client = new MailBreeze('your_api_key', [
-    'base_url' => 'https://api.mailbreeze.com/api/v1', // Custom API URL
-    'timeout' => 30,                                // Request timeout in seconds
-    'max_retries' => 3,                             // Maximum retry attempts
-    'retry_delay' => 1000,                          // Base retry delay in milliseconds
+    'base_url' => 'https://api.mailbreeze.com', // Custom API URL (default)
+    'timeout' => 30,                            // Request timeout in seconds
+    'max_retries' => 3,                         // Maximum retry attempts
+    'retry_delay' => 1000,                      // Base retry delay in milliseconds
 ]);
 ```
 
