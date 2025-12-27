@@ -72,6 +72,7 @@ class Emails
     public function stats(): array
     {
         $response = $this->client->get('/emails/stats') ?? [];
+
         // Backend returns {"stats": {...}} so extract the nested object
         return $response['stats'] ?? $response;
     }
