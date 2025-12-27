@@ -43,7 +43,6 @@ echo "Email sent with ID: " . $email['id'];
 - **Contacts Management** - Create, update, and manage contacts
 - **Lists** - Organize contacts into lists
 - **Email Verification** - Validate email addresses
-- **Automations** - Enroll contacts in automation workflows
 - **Attachments** - Upload and attach files to emails
 
 ## Usage Examples
@@ -158,7 +157,7 @@ $stats = $client->lists->stats('list_123');
 
 ```php
 // Verify single email
-$result = $client->verification->verify('user@example.com');
+$result = $client->verification->verify(['email' => 'user@example.com']);
 
 if ($result['is_valid']) {
     echo "Email is valid!";
@@ -167,42 +166,17 @@ if ($result['is_valid']) {
 }
 
 // Batch verification
-$batch = $client->verification->verifyBatch([
+$batch = $client->verification->batch([
     'email1@example.com',
     'email2@example.com',
     'email3@example.com',
 ]);
 
 // Check batch status
-$result = $client->verification->getBatchStatus($batch['verification_id']);
+$result = $client->verification->get($batch['verification_id']);
 
 // Get verification statistics
 $stats = $client->verification->stats();
-```
-
-### Automations
-
-```php
-// Enroll contact in automation
-$enrollment = $client->automations->enroll([
-    'automation_id' => 'auto_welcome',
-    'contact_id' => 'contact_123',
-    'variables' => [
-        'discount_code' => 'WELCOME10',
-    ],
-]);
-
-// Get enrollment status
-$enrollment = $client->automations->getEnrollment('enrollment_123');
-
-// List enrollments
-$result = $client->automations->listEnrollments([
-    'automation_id' => 'auto_welcome',
-    'status' => 'active',
-]);
-
-// Cancel enrollment
-$client->automations->cancelEnrollment('enrollment_123');
 ```
 
 ### Attachments
@@ -229,7 +203,7 @@ $client->attachments->delete('attach_123');
 
 ```php
 $client = new MailBreeze('your_api_key', [
-    'base_url' => 'https://api.mailbreeze.com/v1', // Custom API URL
+    'base_url' => 'https://api.mailbreeze.com/api/v1', // Custom API URL
     'timeout' => 30,                                // Request timeout in seconds
     'max_retries' => 3,                             // Maximum retry attempts
     'retry_delay' => 1000,                          // Base retry delay in milliseconds

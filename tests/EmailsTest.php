@@ -156,21 +156,22 @@ class EmailsTest extends TestCase
     {
         $client = $this->createClient([
             new Response(200, [], json_encode([
-                'sent' => 1000,
-                'delivered' => 950,
-                'bounced' => 30,
-                'complained' => 5,
-                'opened' => 400,
-                'clicked' => 100,
-                'unsubscribed' => 15,
+                'stats' => [
+                    'total' => 1000,
+                    'sent' => 950,
+                    'failed' => 50,
+                    'transactional' => 600,
+                    'marketing' => 400,
+                    'successRate' => 95.0,
+                ],
             ])),
         ]);
 
         $stats = $client->emails->stats();
 
-        $this->assertEquals(1000, $stats['sent']);
-        $this->assertEquals(950, $stats['delivered']);
-        $this->assertEquals(400, $stats['opened']);
+        $this->assertEquals(1000, $stats['total']);
+        $this->assertEquals(950, $stats['sent']);
+        $this->assertEquals(95.0, $stats['successRate']);
     }
 
     public function testCancelEmail(): void

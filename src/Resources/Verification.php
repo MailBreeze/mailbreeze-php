@@ -15,11 +15,12 @@ class Verification
     /**
      * Verify a single email address.
      *
+     * @param array{email: string} $params Parameters containing email to verify
      * @return array<string, mixed>
      */
-    public function verify(string $email): array
+    public function verify(array $params): array
     {
-        return $this->client->post('/verification/verify', ['email' => $email]) ?? [];
+        return $this->client->post('/email-verification/single', $params) ?? [];
     }
 
     /**
@@ -28,9 +29,9 @@ class Verification
      * @param array<string> $emails
      * @return array<string, mixed>
      */
-    public function verifyBatch(array $emails): array
+    public function batch(array $emails): array
     {
-        return $this->client->post('/verification/batch', ['emails' => $emails]) ?? [];
+        return $this->client->post('/email-verification/batch', ['emails' => $emails]) ?? [];
     }
 
     /**
@@ -38,9 +39,9 @@ class Verification
      *
      * @return array<string, mixed>
      */
-    public function getBatchStatus(string $verificationId): array
+    public function get(string $verificationId): array
     {
-        return $this->client->get('/verification/batch/' . $verificationId) ?? [];
+        return $this->client->get('/email-verification/' . $verificationId) ?? [];
     }
 
     /**
@@ -50,6 +51,6 @@ class Verification
      */
     public function stats(): array
     {
-        return $this->client->get('/verification/stats') ?? [];
+        return $this->client->get('/email-verification/stats') ?? [];
     }
 }

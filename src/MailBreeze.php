@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MailBreeze;
 
 use MailBreeze\Resources\Attachments;
-use MailBreeze\Resources\Automations;
 use MailBreeze\Resources\Contacts;
 use MailBreeze\Resources\Emails;
 use MailBreeze\Resources\Lists;
@@ -17,7 +16,6 @@ class MailBreeze
     public readonly Contacts $contacts;
     public readonly Lists $lists;
     public readonly Verification $verification;
-    public readonly Automations $automations;
     public readonly Attachments $attachments;
 
     private HttpClient $httpClient;
@@ -39,7 +37,6 @@ class MailBreeze
         $this->contacts = new Contacts($this->httpClient);
         $this->lists = new Lists($this->httpClient);
         $this->verification = new Verification($this->httpClient);
-        $this->automations = new Automations($this->httpClient);
         $this->attachments = new Attachments($this->httpClient);
     }
 }

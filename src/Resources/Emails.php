@@ -67,11 +67,13 @@ class Emails
     /**
      * Get email statistics.
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed> Returns stats with keys: total, sent, failed, transactional, marketing, successRate
      */
     public function stats(): array
     {
-        return $this->client->get('/emails/stats') ?? [];
+        $response = $this->client->get('/emails/stats') ?? [];
+        // Backend returns {"stats": {...}} so extract the nested object
+        return $response['stats'] ?? $response;
     }
 
     /**

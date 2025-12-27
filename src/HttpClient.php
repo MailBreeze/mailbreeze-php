@@ -18,7 +18,7 @@ use MailBreeze\Exceptions\ValidationException;
 
 class HttpClient
 {
-    private const DEFAULT_BASE_URL = 'https://api.mailbreeze.com/v1';
+    private const DEFAULT_BASE_URL = 'https://api.mailbreeze.com/api/v1';
     private const DEFAULT_TIMEOUT = 30;
     private const DEFAULT_MAX_RETRIES = 3;
     private const DEFAULT_RETRY_DELAY = 1000; // milliseconds

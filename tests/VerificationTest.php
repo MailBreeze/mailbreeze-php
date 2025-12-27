@@ -39,7 +39,7 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->verify('valid@example.com');
+        $result = $client->verification->verify(['email' => 'valid@example.com']);
 
         $this->assertEquals('valid@example.com', $result['email']);
         $this->assertEquals('valid', $result['status']);
@@ -60,7 +60,7 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->verify('invalid@nonexistent.domain');
+        $result = $client->verification->verify(['email' => 'invalid@nonexistent.domain']);
 
         $this->assertFalse($result['is_valid']);
         $this->assertFalse($result['mx_found']);
@@ -77,7 +77,7 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->verify('test@tempmail.com');
+        $result = $client->verification->verify(['email' => 'test@tempmail.com']);
 
         $this->assertEquals('risky', $result['status']);
         $this->assertTrue($result['is_disposable']);
@@ -94,12 +94,12 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->verify('user@gmial.com');
+        $result = $client->verification->verify(['email' => 'user@gmial.com']);
 
         $this->assertEquals('user@gmail.com', $result['suggestion']);
     }
 
-    public function testVerifyBatch(): void
+    public function testBatch(): void
     {
         $client = $this->createClient([
             new Response(202, [], json_encode([
@@ -111,7 +111,7 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->verifyBatch([
+        $result = $client->verification->batch([
             'email1@example.com',
             'email2@example.com',
             'email3@example.com',
@@ -122,7 +122,7 @@ class VerificationTest extends TestCase
         $this->assertEquals(3, $result['total']);
     }
 
-    public function testGetBatchStatus(): void
+    public function testGet(): void
     {
         $client = $this->createClient([
             new Response(200, [], json_encode([
@@ -139,7 +139,7 @@ class VerificationTest extends TestCase
             ])),
         ]);
 
-        $result = $client->verification->getBatchStatus('batch_123');
+        $result = $client->verification->get('batch_123');
 
         $this->assertEquals('completed', $result['status']);
         $this->assertEquals(3, $result['processed']);
@@ -150,17 +150,19 @@ class VerificationTest extends TestCase
     {
         $client = $this->createClient([
             new Response(200, [], json_encode([
-                'total_verified' => 10000,
-                'valid_count' => 8500,
-                'invalid_count' => 1000,
-                'risky_count' => 400,
-                'unknown_count' => 100,
+                'totalVerified' => 10000,
+                'totalValid' => 8500,
+                'totalInvalid' => 1000,
+                'totalUnknown' => 100,
+                'totalVerifications' => 500,
+                'validPercentage' => 85.0,
             ])),
         ]);
 
         $stats = $client->verification->stats();
 
-        $this->assertEquals(10000, $stats['total_verified']);
-        $this->assertEquals(8500, $stats['valid_count']);
+        $this->assertEquals(10000, $stats['totalVerified']);
+        $this->assertEquals(8500, $stats['totalValid']);
+        $this->assertEquals(85.0, $stats['validPercentage']);
     }
 }
